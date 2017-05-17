@@ -9,7 +9,6 @@ var astFromValue = require('./astFromValue').astFromValue;
 
 var GraphQLError = require('graphql/error').GraphQLError;
 
-var each = require('lodash').each;
 
 function helper(name, type) {
 	"use strict";
@@ -93,12 +92,20 @@ module.exports = function UnionInputType(options) {
 			return value;
 		},
 		parseValue: function(value) {
-			var inputType, ast;
+			var inputType, ast, result;
 			if (typeKey && value[typeKey]) {
+				inputType = referenceTypes[value[typeKey]];
+			} else if (typeKey && Array.isArray(value)) {
+				value = value.reduce(function(acc, x) {
+					for (var key in x) acc[key] = x[key];
+					return acc;
+				}, {});
 				inputType = referenceTypes[value[typeKey]];
 			}
 			ast = astFromValue(value, inputType);
-			return valueFromAST(ast, inputType);
+			result = valueFromAST(ast, inputType);
+			result.kind = value.kind;
+			return result;
 		},
 		parseLiteral: function(ast) {
 			var type, inputType;
