@@ -1,11 +1,15 @@
 var GraphQLScalarType = require('graphql-sync').GraphQLScalarType;
 var GraphQLInputObjectType = require('graphql-sync').GraphQLInputObjectType;
 var GraphQLString = require('graphql-sync').GraphQLString;
+var GraphQLList = require('graphql-sync').GraphQLList;
 
 var isValidLiteralValue = require('graphql/utilities').isValidLiteralValue;
-var valueFromAST = require('graphql/utilities').valueFromAST;
+var valueFromAST = require('./valueFromAst').valueFromAST;
+var astFromValue = require('./astFromValue').astFromValue;
 
 var GraphQLError = require('graphql/error').GraphQLError;
+
+var each = require('lodash').each;
 
 function helper(name, type) {
 	"use strict";
@@ -89,7 +93,12 @@ module.exports = function UnionInputType(options) {
 			return value;
 		},
 		parseValue: function(value) {
-			return value;
+			var inputType, ast;
+			if (typeKey && value[typeKey]) {
+				inputType = referenceTypes[value[typeKey]];
+			}
+			ast = astFromValue(value, inputType);
+			return valueFromAST(ast, inputType);
 		},
 		parseLiteral: function(ast) {
 			var type, inputType;
