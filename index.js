@@ -1,6 +1,6 @@
-var GraphQLScalarType = require('graphql').GraphQLScalarType;
-var GraphQLInputObjectType = require('graphql').GraphQLInputObjectType;
-var GraphQLString = require('graphql').GraphQLString;
+var GraphQLScalarType = require('graphql-sync').GraphQLScalarType;
+var GraphQLInputObjectType = require('graphql-sync').GraphQLInputObjectType;
+var GraphQLString = require('graphql-sync').GraphQLString;
 
 var isValidLiteralValue = require('graphql/utilities').isValidLiteralValue;
 var valueFromAST = require('graphql/utilities').valueFromAST;
