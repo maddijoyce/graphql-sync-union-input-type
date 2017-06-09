@@ -95,16 +95,10 @@ module.exports = function UnionInputType(options) {
 			var inputType, ast, result;
 			if (typeKey && value[typeKey]) {
 				inputType = referenceTypes[value[typeKey]];
-			} else if (typeKey && Array.isArray(value)) {
-				value = value.reduce(function(acc, x) {
-					for (var key in x) acc[key] = x[key];
-					return acc;
-				}, {});
-				inputType = referenceTypes[value[typeKey]];
 			}
 			ast = astFromValue(value, inputType);
 			result = valueFromAST(ast, inputType);
-			result[value[typeKey]] = value[value[typeKey]];
+			result[typeKey] = value[typeKey];
 			return result;
 		},
 		parseLiteral: function(ast) {
