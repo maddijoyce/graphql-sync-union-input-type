@@ -1,6 +1,6 @@
 {
     "name": "graphql-sync-union-input-type",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "description": "Union Input Type for graphql-sync",
     "main": "index.js",
     "scripts": {
