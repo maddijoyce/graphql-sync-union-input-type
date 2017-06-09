@@ -104,7 +104,7 @@ module.exports = function UnionInputType(options) {
 			}
 			ast = astFromValue(value, inputType);
 			result = valueFromAST(ast, inputType);
-			result.kind = value.kind;
+			result[value[typeKey]] = value[value[typeKey]];
 			return result;
 		},
 		parseLiteral: function(ast) {
